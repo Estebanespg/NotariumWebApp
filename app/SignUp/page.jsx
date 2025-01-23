@@ -82,8 +82,7 @@ export default function SignUp() {
               {/* BUTTON */}
               <button
                 disabled={!isValid}
-                className={`w-full h-14 ${isValid ? 'bg-[#6440a5]' : 'bg-[#8067ad]'} font-medium border-none rounded-lg items-center justify-center mb-5`}
-                title="Submit"
+                className={`w-full h-14 ${isValid ? 'bg-[#6440a5] hover:bg-[#7d56c7]' : 'bg-[#8067ad] cursor-not-allowed'} font-medium border-none rounded-lg items-center justify-center mb-5`}
                 onClick={handleSubmit}
               >
                 <p className="color-white text-lg">Registrarse</p>
@@ -95,7 +94,7 @@ export default function SignUp() {
         {/* TEXT */}
         <p className="text-white mb-10">
           Ya tienes una cuenta?
-          <Link href="/SignIn">
+          <Link href="/signin">
             <span className="text-[#1E90FF] font-bold"> Inicia Sesión</span>
           </Link>
         </p>

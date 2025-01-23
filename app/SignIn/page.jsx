@@ -78,8 +78,7 @@ export default function SignIn() {
               {/* BUTTON */}
               <button
                 disabled={!isValid}
-                className={`w-full h-14 ${isValid ? 'bg-[#6440a5]' : 'bg-[#8067ad]'} font-medium border-none rounded-lg items-center justify-center mb-5`}
-                title="Submit"
+                className={`w-full h-14 ${isValid ? 'bg-[#6440a5] hover:bg-[#7d56c7]' : 'bg-[#8067ad] cursor-not-allowed'} font-medium border-none rounded-lg items-center justify-center mb-5`}
                 onClick={handleSubmit}
               >
                 <p className="color-white text-lg">Iniciar Sesión</p>
@@ -91,7 +90,7 @@ export default function SignIn() {
         {/* TEXT */}
         <p className="text-white mb-10">
           No tienes una cuenta?
-          <Link href="/SignUp">
+          <Link href="/signup">
             <span className="text-[#1E90FF] font-bold"> Regístrate</span>
           </Link>
         </p>
