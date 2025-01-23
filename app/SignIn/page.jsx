@@ -1,13 +1,104 @@
-import Link from "next/link";
+"use client";
+
 import Image from "next/image";
 import icon from "../../public/ic_notarium_light_white.png";
+import { ErrorMessage, Formik } from 'formik';
+import * as Yup from 'yup';
+import { FaAt, FaLock } from "react-icons/fa6";
+import Link from "next/link";
 
 export default function SignIn() {
+  // VALIDATION
+  const SignInSchema = Yup.object().shape({
+    email: Yup.string()
+      .required('Por favor ingresa un correo!'),
+    password: Yup.string()
+      .required('Por favor ingresa tu contraseña!'),
+  });
+
   return (
-    <>
-      <Image src={icon}  width="512" height="512" alt=""/>
-      <p className="text-2xl">Sign In</p>
-      <Link href="/SignUp">Go to Sign Up</Link>
-    </>
+    <div className="w-screen h-screen flex flex-col justify-center items-center">
+      <div className="w-[400px] flex flex-col items-center">
+        {/* IMAGE */}
+        <Image src={icon} width="100" height="100" alt="Notarium Logo" />
+
+        {/* TITLE */}
+        <p className="text-3xl font-semibold mt-8 mb-12">Iniciar Sesión</p>
+
+        {/* FORM */}
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validationSchema={SignInSchema}
+        // onSubmit={handleSignIn}
+        >
+          {({ handleChange, handleBlur, handleSubmit, isValid, values }) => (
+            <>
+              {/* EMAIL INPUT */}
+              <div className="flex items-center h-12 w-full bg-[#11181d] border-2 border-slate-600 rounded-2xl px-3 mb-2">
+                <FaAt className="text-xl mr-2" />
+                <input
+                  className="w-full placeholder:text-slate-600 text-white h-full bg-transparent border-none focus:outline-none text-lg"
+                  placeholder="Correo"
+                  onChange={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                />
+              </div>
+              <div className="flex justify-start w-full mb-6">
+                <ErrorMessage name="email">
+                  {msg =>
+                    <p className="justify-start text-red-700 font-semibold text-md">
+                      {msg}
+                    </p>
+                  }
+                </ErrorMessage>
+              </div>
+
+              {/* PASSWORD INPUT */}
+              <div className="flex items-center h-12 w-full bg-[#11181d] border-2 border-slate-600 rounded-2xl px-3 mb-2">
+                <FaLock className="text-xl mr-2" />
+                <input
+                  className="flex-1 placeholder:text-slate-600 text-white h-full bg-transparent border-none focus:outline-none text-lg"
+                  placeholder="Contraseña"
+                  onChange={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  value={values.password}
+                />
+              </div>
+              <div className="flex justify-start w-full mb-8">
+                <ErrorMessage name="password">
+                  {msg =>
+                    <p className="justify-start text-red-700 font-semibold text-md">
+                      {msg}
+                    </p>
+                  }
+                </ErrorMessage>
+              </div>
+
+              {/* BUTTON */}
+              <button
+                disabled={!isValid}
+                className={`w-full h-14 ${isValid ? 'bg-[#6440a5]' : 'bg-[#8067ad]'} font-medium border-none rounded-lg items-center justify-center mb-5`}
+                title="Submit"
+                onClick={handleSubmit}
+              >
+                <p className="color-white text-lg">Iniciar Sesión</p>
+              </button>
+            </>
+          )}
+        </Formik>
+
+        {/* TEXT */}
+        <p className="text-white mb-10">
+          No tienes una cuenta?
+          <Link href="/SignUp">
+            <span className="text-[#1E90FF] font-bold"> Regístrate</span>
+          </Link>
+        </p>
+
+        {/* TEXT */}
+        <p className="absolute bottom-2.5 left-0 right-0 text-center text-white tracking-wide font-medium">Notarium</p>
+      </div>
+    </div>
   );
 }
