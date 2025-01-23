@@ -22,7 +22,7 @@ export default function SignUp() {
 
   return (
     <div className="w-screen h-screen flex flex-col justify-center items-center">
-      <div className="w-[400px] flex flex-col items-center">
+      <div className="w-[350px] md:w-[400px] flex flex-col items-center">
         {/* IMAGE */}
         <Image src={icon} width="100" height="100" alt="Notarium Logo" />
 
