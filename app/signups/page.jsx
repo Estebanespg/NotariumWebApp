@@ -7,13 +7,17 @@ import * as Yup from 'yup';
 import { FaAt, FaLock } from "react-icons/fa6";
 import Link from "next/link";
 
-export default function SignIn() {
+export default function SignUp() {
   // VALIDATION
-  const SignInSchema = Yup.object().shape({
+  const SignUpSchema = Yup.object().shape({
     email: Yup.string()
-      .required('Por favor ingresa un correo!'),
+      .email('Correo Inválido')
+      .required('Por favor ingresa un correo!')
+      .matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, "El formato del correo electrónico es inválido"),
     password: Yup.string()
-      .required('Por favor ingresa tu contraseña!'),
+      .min(8, 'Muy corta!')
+      .required('Por favor ingresa una contraseña!')
+      .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "La contraseña debe tener al menos 8 caracteres, incluyendo una mayúscula, un número y un símbolo especial."),
   });
 
   return (
@@ -23,12 +27,12 @@ export default function SignIn() {
         <Image src={icon} width="100" height="100" alt="Notarium Logo" />
 
         {/* TITLE */}
-        <p className="text-3xl font-semibold mt-8 mb-12">Iniciar Sesión</p>
+        <p className="text-3xl font-semibold mt-8 mb-12">Registrarse</p>
 
         {/* FORM */}
         <Formik
           initialValues={{ email: "", password: "" }}
-          validationSchema={SignInSchema}
+          validationSchema={SignUpSchema}
         // onSubmit={handleSignIn}
         >
           {({ handleChange, handleBlur, handleSubmit, isValid, values }) => (
@@ -77,11 +81,12 @@ export default function SignIn() {
 
               {/* BUTTON */}
               <button
+                type="submit"
                 disabled={!isValid}
                 className={`w-full h-14 ${isValid ? 'bg-[#6440a5] hover:bg-[#7d56c7]' : 'bg-[#8067ad] cursor-not-allowed'} font-medium border-none rounded-lg items-center justify-center mb-5`}
                 onClick={handleSubmit}
               >
-                <p className="color-white text-lg">Iniciar Sesión</p>
+                <p className="color-white text-lg">Registrarse</p>
               </button>
             </>
           )}
@@ -89,9 +94,9 @@ export default function SignIn() {
 
         {/* TEXT */}
         <p className="text-white mb-10">
-          No tienes una cuenta?
-          <Link href="/signup">
-            <span className="text-[#1E90FF] font-bold"> Regístrate</span>
+          Ya tienes una cuenta?
+          <Link href="/signin">
+            <span className="text-[#1E90FF] font-bold"> Inicia Sesión</span>
           </Link>
         </p>
 

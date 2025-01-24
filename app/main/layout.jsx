@@ -7,7 +7,6 @@ import { FaBars, FaUserGraduate, FaGear, FaRightToBracket } from "react-icons/fa
 
 export default function MainLayout({ children }) {
   const currentRoute = usePathname();
-  console.log(currentRoute);
 
   return (
     <>

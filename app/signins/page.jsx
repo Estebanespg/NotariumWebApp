@@ -6,19 +6,66 @@ import { ErrorMessage, Formik } from 'formik';
 import * as Yup from 'yup';
 import { FaAt, FaLock } from "react-icons/fa6";
 import Link from "next/link";
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase';
+import { useRouter } from "next/navigation";
 
-export default function SignUp() {
+export default function SignIn() {
+  const router = useRouter();
+
   // VALIDATION
-  const SignUpSchema = Yup.object().shape({
+  const SignInSchema = Yup.object().shape({
     email: Yup.string()
-      .email('Correo Inválido')
-      .required('Por favor ingresa un correo!')
-      .matches(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, "El formato del correo electrónico es inválido"),
+      .required('Por favor ingresa un correo!'),
     password: Yup.string()
-      .min(8, 'Muy corta!')
-      .required('Por favor ingresa una contraseña!')
-      .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, "La contraseña debe tener al menos 8 caracteres, incluyendo una mayúscula, un número y un símbolo especial."),
+      .required('Por favor ingresa tu contraseña!'),
   });
+
+  // HANDLE SIGNIN
+  const handleSignIn = async (values) => {
+    try {
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      // Toast.show({
+      //   type: 'info',
+      //   text1: 'Iniciar Sesión',
+      //   text2: 'Bienvenido de vuelta! 👋'
+      // });
+      console.log(values.email);
+      console.log(values.password);
+      router.push("/main/students");
+      // router.replace("/Students");
+    } catch (error) {
+      if (error.code === 'auth/invalid-credential') {
+        console.log(error);
+        // Toast.show({
+        //   type: 'error',
+        //   text1: 'Correo y/o contraseña incorrectos',
+        //   text2: `Código de error: \n${error.code}`
+        // });
+      } else if (error.code === 'auth/invalid-email') {
+        console.log(error);
+        // Toast.show({
+        //   type: 'error',
+        //   text1: 'Correo inválido',
+        //   text2: `Código de error: \n${error.code}`
+        // });
+      } else if (error.code === 'auth/network-request-failed') {
+        console.log(error);
+        // Toast.show({
+        //   type: 'error',
+        //   text1: 'Conéctate a Internet',
+        //   text2: `Comprueba la conexión. \nCodigo de error: \n${error.code}`
+        // });
+      } else {
+        console.log(error);
+        // Toast.show({
+        //   type: 'error',
+        //   text1: 'Error',
+        //   text2: `Código de error: \n${error.code}`
+        // });
+      }
+    }
+  }
 
   return (
     <div className="w-screen h-dvh flex flex-col justify-center items-center">
@@ -27,13 +74,13 @@ export default function SignUp() {
         <Image src={icon} width="100" height="100" alt="Notarium Logo" />
 
         {/* TITLE */}
-        <p className="text-3xl font-semibold mt-8 mb-12">Registrarse</p>
+        <p className="text-3xl font-semibold mt-8 mb-12">Iniciar Sesión</p>
 
         {/* FORM */}
         <Formik
           initialValues={{ email: "", password: "" }}
-          validationSchema={SignUpSchema}
-        // onSubmit={handleSignIn}
+          validationSchema={SignInSchema}
+          onSubmit={handleSignIn}
         >
           {({ handleChange, handleBlur, handleSubmit, isValid, values }) => (
             <>
@@ -81,11 +128,12 @@ export default function SignUp() {
 
               {/* BUTTON */}
               <button
+                type="submit"
                 disabled={!isValid}
                 className={`w-full h-14 ${isValid ? 'bg-[#6440a5] hover:bg-[#7d56c7]' : 'bg-[#8067ad] cursor-not-allowed'} font-medium border-none rounded-lg items-center justify-center mb-5`}
                 onClick={handleSubmit}
               >
-                <p className="color-white text-lg">Registrarse</p>
+                <p className="color-white text-lg">Iniciar Sesión</p>
               </button>
             </>
           )}
@@ -93,9 +141,9 @@ export default function SignUp() {
 
         {/* TEXT */}
         <p className="text-white mb-10">
-          Ya tienes una cuenta?
-          <Link href="/signin">
-            <span className="text-[#1E90FF] font-bold"> Inicia Sesión</span>
+          No tienes una cuenta?
+          <Link href="/signup">
+            <span className="text-[#1E90FF] font-bold"> Regístrate</span>
           </Link>
         </p>
 
