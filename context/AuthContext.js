@@ -1,28 +1,24 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from '../firebase';
+import { createContext, useEffect, useReducer } from 'react';
+import AuthReducer from './AuthReducer';
 
-const AuthContext = createContext();
-
-export const AuthContextProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);  // Cuando Firebase termina de verificar el estado, cambiamos el loading a false
-    });
-    return unsubscribe;
-  }, []);
-
-  return (
-    <AuthContext.Provider value={{ user, loading }}>
-      {children}
-    </AuthContext.Provider>
-  );
+const INITIAL_STATE = {
+    currentUser: JSON.parse(localStorage.getItem("user")) || null,
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const AuthContext = createContext(INITIAL_STATE);
+
+export const AuthContextProvider = ({ children }) => {
+    const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
+
+    useEffect(() => {
+        localStorage.setItem("user", JSON.stringify(state.currentUser));
+    }, [state.currentUser]);
+
+    return (
+        <AuthContext.Provider value={{ currentUser: state.currentUser, dispatch }}>
+            {children}
+        </AuthContext.Provider>
+    );
+};

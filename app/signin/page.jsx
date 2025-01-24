@@ -9,8 +9,11 @@ import Link from "next/link";
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function SignIn() {
+  const { dispatch } = useContext(AuthContext);
   const router = useRouter();
 
   // VALIDATION
@@ -24,16 +27,17 @@ export default function SignIn() {
   // HANDLE SIGNIN
   const handleSignIn = async (values) => {
     try {
-      await signInWithEmailAndPassword(auth, values.email, values.password);
+      const userCredential = await signInWithEmailAndPassword(auth, values.email, values.password);
+      const user = userCredential.user;
+      dispatch({ type: "LOGIN", payload: user });
+      console.log(values.email);
+      console.log(values.password);
       // Toast.show({
       //   type: 'info',
       //   text1: 'Iniciar Sesión',
       //   text2: 'Bienvenido de vuelta! 👋'
       // });
-      console.log(values.email);
-      console.log(values.password);
       router.push("/main/students");
-      // router.replace("/Students");
     } catch (error) {
       if (error.code === 'auth/invalid-credential') {
         console.log(error);
