@@ -4,9 +4,31 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import icon from "../../public/ic_notarium_light_white.png";
 import { FaBars, FaUserGraduate, FaGear, FaRightToBracket } from "react-icons/fa6";
+import { signOut } from "firebase/auth";
+import { auth } from "@/firebase";
+import { useRouter } from "next/navigation";
+import { useContext } from "react";
+import { AuthContext } from "@/context/AuthContext";
 
 export default function MainLayout({ children }) {
   const currentRoute = usePathname();
+  const { dispatch } = useContext(AuthContext);
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      dispatch({ type: "LOGOUT" });
+      router.push("/signin");
+    } catch (error) {
+      console.log(error);
+      // Toast.show({
+      //   type: 'error',
+      //   text1: 'Error',
+      //   text2: `Código de error: \n${error}`
+      // });
+    }
+  };
 
   return (
     <>
@@ -41,7 +63,7 @@ export default function MainLayout({ children }) {
                 <FaRightToBracket className="flex-shrink-0 w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" aria-hidden="true" fill="currentColor" />
                 <span className="flex-1 ms-3 whitespace-nowrap">Cerrar Sesión</span>
               </a> */}
-              <a href="/signin" className="flex items-center p-2 transition duration-500 text-white hover:text-[#e71b1b] rounded-lg bg-[#e71b1b] hover:bg-white group">
+              <a onClick={handleSignOut} className="flex items-center p-2 transition duration-500 text-white hover:text-[#e71b1b] rounded-lg bg-[#e71b1b] hover:bg-white group">
                 <FaRightToBracket className="flex-shrink-0 w-5 h-5 text-white transition duration-500 group-hover:text-[#e71b1b]" aria-hidden="true" fill="currentColor" />
                 <span className="flex-1 text-center whitespace-nowrap">Cerrar Sesión</span>
               </a>
