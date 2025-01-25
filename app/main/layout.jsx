@@ -15,7 +15,7 @@ export default function MainLayout({ children }) {
         <FaBars className="w-6 h-6" aria-hidden="true" fill="currentColor" />
       </button>
 
-      <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-52 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
+      <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-52 h-dvh transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
         <div className="flex flex-col h-full px-3 py-4 overflow-y-auto bg-gray-800">
           <a href="/main/students" className="flex items-center ps-2.5 mb-5">
             <Image src={icon} width="30" height="30" className="mr-2" alt="Notarium Logo" />
