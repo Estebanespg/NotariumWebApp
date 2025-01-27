@@ -68,7 +68,7 @@ export default function MainLayout({ children }) {
         </div>
       </aside>
 
-      <div className="mt-5 sm:ml-52 sm:mt-16 sm:mb-12">
+      <div className="pt-5 sm:pl-52 sm:pt-16 sm:pb-12 h-dvh">
         {children}
       </div>
     </>
