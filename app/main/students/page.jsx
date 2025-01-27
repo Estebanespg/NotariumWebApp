@@ -13,7 +13,7 @@ export default function Students() {
     <div className="flex flex-col items-center">
       <div className="flex flex-col items-center mb-2">
         <p className="text-2xl font-semibold">Estudiantes del usuario:</p>
-        <p className="">{currentUser.email || null}</p>
+        <p className="text-lg font-normal">{currentUser.email || null}</p>
       </div>
       <StudentCard />
     </div>
