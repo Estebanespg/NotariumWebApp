@@ -98,6 +98,7 @@ export default function SignUp() {
                 <input
                   className="w-full placeholder:text-slate-600 text-white h-full bg-transparent border-none focus:outline-none text-lg"
                   placeholder="Correo"
+                  type="email"
                   onChange={handleChange('email')}
                   onBlur={handleBlur('email')}
                   value={values.email}
@@ -119,6 +120,7 @@ export default function SignUp() {
                 <input
                   className="flex-1 placeholder:text-slate-600 text-white h-full bg-transparent border-none focus:outline-none text-lg"
                   placeholder="Contraseña"
+                  type="password"
                   onChange={handleChange('password')}
                   onBlur={handleBlur('password')}
                   value={values.password}
