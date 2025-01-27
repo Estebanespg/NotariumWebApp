@@ -59,11 +59,7 @@ export default function MainLayout({ children }) {
           </ul>
           <ul className="pt-4 mt-auto space-y-2 font-medium border-t border-gray-700">
             <li>
-              {/* <a href="/signin" className="flex items-center p-2 text-white rounded-lg hover:bg-gray-700 group">
-                <FaRightToBracket className="flex-shrink-0 w-5 h-5 text-gray-400 transition duration-75 group-hover:text-white" aria-hidden="true" fill="currentColor" />
-                <span className="flex-1 ms-3 whitespace-nowrap">Cerrar Sesión</span>
-              </a> */}
-              <a onClick={handleSignOut} className="flex items-center p-2 transition duration-500 text-white hover:text-[#e71b1b] rounded-lg bg-[#e71b1b] hover:bg-white group">
+              <a onClick={handleSignOut} className="flex items-center p-2 transition duration-500 text-white hover:text-[#e71b1b] rounded-lg bg-[#e71b1b] hover:bg-white group cursor-pointer">
                 <FaRightToBracket className="flex-shrink-0 w-5 h-5 text-white transition duration-500 group-hover:text-[#e71b1b]" aria-hidden="true" fill="currentColor" />
                 <span className="flex-1 text-center whitespace-nowrap">Cerrar Sesión</span>
               </a>
