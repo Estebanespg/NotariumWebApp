@@ -22,7 +22,7 @@ export default function Students() {
         querySnapshot.forEach((doc) => {
           studentList.push({ id: doc.id, ...doc.data() });
         });
-        console.log(JSON.stringify(studentList));
+        // console.log(JSON.stringify(studentList));
         setStudent(studentList);
       } catch (error) {
         console.log(error);
@@ -37,7 +37,7 @@ export default function Students() {
   }, [currentUser]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col h-full items-center">
       <div className="flex flex-col items-center mb-2">
         <p className="text-2xl font-semibold">Estudiantes del usuario:</p>
         <p className="text-lg font-normal">{currentUser.email || null}</p>
@@ -48,7 +48,9 @@ export default function Students() {
             <StudentCard key={studentData.id} data={studentData} />
           ))
         ) : (
-          <div>Aún no hay estudiantes registrados...</div>
+          <div className="flex flex-col mt-12 justify-center">
+            <p className="text-lg font-normal">Aún no hay estudiantes registrados...</p>
+          </div>
         )
       }
     </div>
